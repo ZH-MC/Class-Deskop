@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>随机点名</title>
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<style>
+		
+	</style>
+</head>
+
+<body style='height:100%; '>
+	<div style='padding-top:200px;'>
+		<!-- 姓名展示区域 -->
+		<div style='width:402px; margin: 0 auto; text-align: center; '>
+			<span id='nameArea' style=""></span>
+		</div>
+		<!-- 操作区 -->
+		<div style='width:102px; margin:0 auto; padding-top:10px;'>
+			<input id='startButton' type='button' style='' value='随机点名' />
+			<div style='padding-top:10px;''>  
+                <button id="button_text" style="text-align: center;">停止</button>
+			</div>
+            <div style=' padding-top:20px; text-align: center;'>
+				<a href="index.html"><button style="width:32px; height: 32px; outline: none; border: none; background:url('./img/stop.ico');"></button></a>
+			</div>
+		</div>
+
+		<div
+			style='position:fixed; top:0px; right:0px; color:rgb(0, 0, 0); width:160px; height:100%; border-left:1px solid rgb(0, 0, 0); padding-top:10px; padding-bottom:20px; overflow:auto;'>
+			<div style='text-align: center;'>
+				<h3>当前名册</h3>
+
+				<span id="input" style='text-align: center; font-weight:bolder;'></span>
+
+			</div>
+			<div id='namesShow' style='text-align: center; padding-bottom:30px;'></div>
+		</div>
+<script src="./js/names.js"></script>
+<script src="./js/script.js"></script>
+
+</body>
+
+</html>

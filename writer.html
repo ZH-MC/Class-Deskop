@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>桌面</title>
+    <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: "Roboto", sans-serif;
+            background: url("./img/bg.jpg") no-repeat center/cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            backdrop-filter: blur(5px);
+        }
+
+        .container {
+            text-align: center;
+            margin: 2rem auto 0;
+            padding: 0 15px;
+        }
+
+        .container>* {
+            padding: 1rem;
+        }
+
+        .container h5 {
+            font-size: 2rem;
+        }
+
+        .container form input {
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            border: none;
+            border-right: 1px solid rgba(0, 0, 0, 0.5);
+        }
+
+        .container form button {
+            font-size: 1.2rem;
+            outline: none;
+            border: none;
+            padding: 10px 15px;
+            background: #ffffff;
+            color: #b6281b;
+            cursor: pointer;
+            transition: 0.2s linear;
+        }
+
+        .container form button:hover {
+            background: #b6281b;
+            color: #ffffff;
+        }
+
+        .container h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+        }
+
+        .container h5,
+        .container h1,
+        .container p {
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .container p {
+            font-size: 1.2rem;
+            width: 80%;
+            margin: auto;
+        }
+
+        .container .hidden {
+            display: none;
+        }
+
+        .container .pickedTime {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container .pickedTime .time {
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #ffffff;
+        }
+
+        .container .pickedTime .time span {
+            font-size: 2.5rem;
+            color: #b6281b;
+        }
+
+        .container .pickedTime .time p {
+            color: #000000;
+            width: 100%;
+        }
+
+        .container .boxes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container .boxes .box {
+            background: #ffffff;
+            margin: 1rem;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .container .boxes .box span {
+            color: #b6281b;
+            font-weight: bold;
+            font-size: 4rem;
+        }
+
+        .container .boxes .box p {
+            color: #000000;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h5>添加日期</h5>
+        <form id="addDate">
+            <input type="date" name="date" id="date">
+            <input type="time" name="time" id="time">
+            <button type="submit">提交</button>
+        </form>
+        <p class="hidden">截止日期<br><span id="until"></span></p>
+        <p class="hidden">还剩的时间</p>
+        <div class="pickedTime">
+            <div class="time">
+                <span id="time-years">-</span>
+                <p>年</p>
+            </div>
+            <div class="time">
+                <span id="time-days">-</span>
+                <p>天</p>
+            </div>
+            <div class="time">
+                <span id="time-hours">-</span>
+                <p>时</p>
+            </div>
+            <div class="time">
+                <span id="time-minutes">-</span>
+                <p>分</p>
+            </div>
+            <div class="time">
+                <span id="time-seconds">-</span>
+                <p>秒</p>
+            </div>
+        </div>
+        <div style=' padding-top:20px; text-align: center;'>
+            <a href="index.html"><button
+                    style="width:32px; height: 32px; outline: none; border: none; background:url('./img/stop.ico');"></button></a>
+        </div>
+    </div>
+
+
+
+    <script>
+        const s = 1000,
+            m = s * 60,
+            h = m * 60,
+            d = h * 24,
+            y = d * 365;
+
+        setInterval(() => {
+            counting();
+        }, 1000);
+
+
+        const formAddDate = document.getElementById('addDate');
+        formAddDate.addEventListener('submit', addTime);
+
+        function addTime(e) {
+            const date = document.getElementById('date').value,
+                time = document.getElementById('time').value,
+                timeYears = document.getElementById('time-years'),
+                timeDays = document.getElementById('time-days'),
+                timeHours = document.getElementById('time-hours'),
+                timeMinutes = document.getElementById('time-minutes'),
+                timeSeconds = document.getElementById('time-seconds');
+
+            if (date && time) {
+                const chosenDate = new Date(`${date} ${time}`)
+                document.getElementById('until').innerText = chosenDate.toString();
+
+                const hidden = document.querySelectorAll('.hidden');
+                hidden.forEach(el => el.style.display = 'block');
+
+                const interval = setInterval(() => {
+                    const pickedDate = new Date(`${date} ${time}`).getTime(),
+                        currentDate = new Date().getTime(),
+                        difference = pickedDate - currentDate,
+                        years = Math.floor(difference / y);
+
+                    if (years < 1) {
+                        timeYears.parentElement.style.display = 'none';
+                    } else {
+                        timeYears.parentElement.style.display = 'block';
+
+                    }
+                    timeYears.innerHTML = Math.floor(difference / y);
+                    timeDays.innerHTML = Math.floor((difference % y) / d);
+                    timeHours.innerHTML = Math.floor((difference % d) / h);
+                    timeMinutes.innerHTML = Math.floor((difference % h) / m);
+                    timeSeconds.innerHTML = Math.floor((difference % m) / s);
+                }, 1000);
+
+                document.querySelector('button').addEventListener('click', () => {
+                    clearInterval(interval);
+                });
+
+                formAddDate.reset();
+            }
+            e.preventDefault();
+        }
+    </script>
+
+</body>
+
+</html>

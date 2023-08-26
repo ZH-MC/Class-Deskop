@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <title>桌面</title>
+    <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+</head>
+
+<body>
+    <div>
+        <!-- <div  style="position:absolute; top:0; left:0; font-size: 35px;">
+        </div> -->
+
+        <div style="position:absolute; top:0; right:0; width: 350px;">
+            <div id="clock" style="font-size: 35px;"></div>
+            <p id="hitokoto">
+                <p id="hitokoto_text" style="font-size: 20px;">:D 获取中...</p>
+            </p>
+            <div style="width: 350px; height: 350px; text-align: center; border: 2px solid #000; border-radius: 20px;">
+                <h2>今日值日生</h2>
+                <p>暂无</p>
+                
+            </div>
+        </div>
+        <div>
+            <div id="lesson" style="text-align: center; font-size: 35px; padding-top: 150px;"></div>
+            <div class="box"></div>
+        </div>
+
+
+        <span style='padding-top:120px; text-align: center; '>
+            <a href="writer.html">
+                <button id="bi" style="left: 45%;"></button>
+            </a>
+            <a href="RRC.html">
+                <button id="bo" style="left: 55%;"></button>
+            </a>
+
+        </span>
+        
+    </div>
+    <div style="padding-top: 280px; text-align: center;">
+        <p>&copy; 2023 ZH_MC</p>
+    </div>
+
+
+
+
+
+
+
+    
+    <!-- 引入外部 JavaScript 文件 -->
+    <script>
+        const divObj = document.getElementsByClassName('box')[0];
+
+        setInterval(() => {
+            const nowTime = getNowTime();
+            divObj.innerText = nowTime;
+        })
+
+        function getNowTime() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+            const hour = date.getHours();
+            const minite = date.getMinutes();
+            const seconds = date.getSeconds();
+            return `${hour}:${minite<10?'0'+minite:minite}`
+        }
+
+        function showTime(clock) {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = now.getMonth();
+            var day = now.getDate();
+            var hour = now.getHours();
+            var minu = now.getMinutes();
+            var second = now.getSeconds();
+            month = month + 1;
+            var arr_work = new Array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
+            var week = arr_work[now.getDay()];
+            var time = year + "年" + month + "月" + day + "日 " + week;
+            clock.innerHTML = time;
+        }
+
+        function koto() {
+            fetch('https://v1.hitokoto.cn/?c=d')
+                .then(response => response.json())
+                .then(data => {
+                    const hitokoto = document.querySelector('#hitokoto_text')
+                    hitokoto.innerText = data.hitokoto
+                })
+                .catch(console.error)
+        }
+
+        function lesson() {
+            var lesson = document.getElementById("lesson");
+            var now = new Date();
+            var code = now.getDay();
+            if (code == 1) {
+                lesson.innerHTML = "到|数英语史|午|物地体";
+            }
+            if (code == 2) {
+                lesson.innerHTML = "到|数物语生|午|道地英";
+            }
+            if (code == 3) {
+                lesson.innerHTML = "到|英数语语|午|体生班";
+            }
+            if (code == 4) {
+                lesson.innerHTML = "到|生英物体|午|地数语";
+            }
+            if (code == 5) {
+                lesson.innerHTML = "到|英英数数|午|语物健";
+            }
+            if (code == 6) {
+                lesson.innerHTML = "无|无无无无|无|无无无";
+            }
+            if (code == 0) {
+                lesson.innerHTML = "无|无无无无|无|无无无";
+            }
+            console.log(code);
+
+        }
+
+        console.log(koto());
+        console.log(showTime(clock));
+        console.log(getNowTime());
+        console.log(lesson());
+
+        window.onload = function () {
+            var clock = document.getElementById("clock");
+            window.setInterval("showTime(clock)", 1000);
+            var lesson = document.getElementById("lesson");
+            window.setInterval("lesson()", 1000);
+            var koto = document.getElementById("hitokoto_text");
+            window.setInterval("koto()", 600000);
+        }
+    </script>
+
+</body>
+
+</html>

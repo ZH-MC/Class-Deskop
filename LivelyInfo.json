@@ -1,0 +1,14 @@
+{
+  "AppVersion": "1.0.2.0",
+  "Title": "一个普通的壁纸",
+  "Thumbnail": "bg.jpg",
+  "Preview": "bg.jpg",
+  "Desc": "一个普通的壁纸",
+  "Author": "zh_mc",
+  "License": null,
+  "Contact": "index.html",
+  "Type": 1,
+  "FileName": "index.html",
+  "Arguments": null,
+  "IsAbsolutePath": false
+}
